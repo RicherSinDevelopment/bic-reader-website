@@ -6,7 +6,12 @@ const links: { page: Page; label: string }[] = [
   { page: 'home', label: 'Home' }, { page: 'privacy', label: 'Privacy Policy' },
   { page: 'support', label: 'Support' },
 ]
-const getPage = (): Page => { const page = window.location.hash.replace('#/', '') as Page; return links.some((link) => link.page === page) ? page : 'home' }
+const getPage = (): Page => {
+  const hashPage = window.location.hash.replace('#/', '') as Page
+  const queryPage = new URLSearchParams(window.location.search).get('page') as Page | null
+  const page = queryPage || hashPage
+  return links.some((link) => link.page === page) ? page : 'home'
+}
 
 function Brand() { return <a className="brand" href="#/home" aria-label="Bic Reader home"><img src="/assets/Bicreaderlogo.png" alt="" /><span>Bic Reader</span></a> }
 
@@ -22,7 +27,7 @@ const policyContent: Record<'privacy', { eyebrow: string; title: string; intro: 
     ['Purchases and diagnostics', 'Apple processes App Store payments. RevenueCat receives subscription and entitlement information so we can provide premium features. Sentry receives privacy-filtered crash and error information. We do not receive payment-card details or use your information for advertising tracking.'],
     ['How we use information', 'We use information to authenticate accounts, provide reading and sync features, process subscriptions, answer requested AI questions, support users, maintain reliability, prevent abuse, and comply with law. We do not sell personal information.'],
     ['Your choices and deletion', 'Cloud sync, social sign-in, and AI are optional. Delete your account from Profile → Delete account or contact support@bicreader.com. Account deletion removes associated cloud data where supported; offline PDFs may remain on your device until you remove them.'],
-    ['Security and children', 'We use reasonable safeguards including authenticated access, private cloud storage, and row-level security. Bic Reader is intended for users aged 13 and older and is not directed to children under 13.'],
+    ['Security and children', 'We use reasonable safeguards including authenticated access, private cloud storage, and row-level security. Bic Reader is intended for users aged 4 and older and is not directed to children under 4.'],
     ['Contact', 'For privacy questions or requests, email support@bicreader.com. Read the full policy source in the Bic Reader repository before publishing any changes.'],
   ] },
 }
